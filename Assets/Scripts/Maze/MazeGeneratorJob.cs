@@ -10,7 +10,8 @@ namespace Maze
     public struct MazeGeneratorJob : IJob
     {
         public MazeCellCollection Cells;
-
+        public float PickLastProbability;
+        public float OpenDeadEndProbability;
         public uint Seed;
 
         public void Execute()
@@ -32,25 +33,102 @@ namespace Maze
 
             while (firstActiveIndex <= lastActiveIndex)
             {
-                var index = activeIndices[lastActiveIndex];
+                var pickLast = random.NextFloat() < PickLastProbability;
+
+                int randomActiveIndex, index;
+
+                if (pickLast)
+                {
+                    randomActiveIndex = 0;
+                    index = activeIndices[lastActiveIndex];
+                }
+                else
+                {
+                    randomActiveIndex = random.NextInt(firstActiveIndex, lastActiveIndex + 1);
+                    index = activeIndices[randomActiveIndex];
+                }
 
                 var availablePassageCount = FindAvailablePassages(index, scratchpad);
 
                 if (availablePassageCount <= 1)
                 {
-                    lastActiveIndex -= 1;
+                    if (pickLast)
+                    {
+                        lastActiveIndex--;
+                    }
+                    else
+                    {
+                        activeIndices[randomActiveIndex] = activeIndices[firstActiveIndex++];
+                    }
                 }
 
                 if (availablePassageCount > 0)
                 {
                     var passage = scratchpad[random.NextInt(0, availablePassageCount)];
-                    
+
                     Cells[index] = Cells[index].Add(passage.Item2);
                     Cells[passage.Item1] = passage.Item3;
-                    
+
                     activeIndices[++lastActiveIndex] = passage.Item1;
                 }
+
+                if (OpenDeadEndProbability > 0f)
+                {
+                    random = OpenDeadEnds(random, scratchpad);
+                }
             }
+        }
+
+        private Random OpenDeadEnds(Random random, NativeArray<(int, MazeCellFlags, MazeCellFlags)> scratchpad)
+        {
+            for (var i = 0; i < Cells.Length; i++)
+            {
+                var cell = Cells[i];
+
+                if (cell.HasExactlyOne() && random.NextFloat() < OpenDeadEndProbability)
+                {
+                    var availablePassageCount = FindClosedPassages(i, scratchpad, cell);
+
+                    var passage = scratchpad[random.NextInt(0, availablePassageCount)];
+
+                    Cells[i] = cell.Add(passage.Item2);
+                    Cells[i + passage.Item1] = passage.Item3;
+                }
+            }
+            
+            return random;
+        }
+
+        private int FindClosedPassages(
+            int index,
+            NativeArray<(int, MazeCellFlags, MazeCellFlags)> scratchpad,
+            MazeCellFlags exclude
+        )
+        {
+            var coordinates = Cells.IndexToCoordinates(index);
+            var count = 0;
+
+            if (exclude != MazeCellFlags.East && coordinates.x + 1 < Cells.Width)
+            {
+                scratchpad[count++] = (Cells.East, MazeCellFlags.East, MazeCellFlags.West);
+            }
+
+            if (exclude != MazeCellFlags.West && coordinates.x > 0)
+            {
+                scratchpad[count++] = (Cells.West, MazeCellFlags.West, MazeCellFlags.East);
+            }
+
+            if (exclude != MazeCellFlags.North && coordinates.y + 1 < Cells.Height)
+            {
+                scratchpad[count++] = (Cells.North, MazeCellFlags.North, MazeCellFlags.South);
+            }
+
+            if (exclude != MazeCellFlags.South && coordinates.y > 0)
+            {
+                scratchpad[count++] = (Cells.South, MazeCellFlags.South, MazeCellFlags.North);
+            }
+
+            return count;
         }
 
         private int FindAvailablePassages(int index, NativeArray<(int, MazeCellFlags, MazeCellFlags)> scratchpad)

@@ -15,6 +15,12 @@ namespace Maze
         [SerializeField]
         private uint seed;
         
+        [SerializeField, Range(0f, 1f)]
+        private float pickLastProbability = 0.5f;
+        
+        [SerializeField, Range(0f, 1f)]
+        private float openDeadEndProbability = 0.5f;
+        
         private MazeCellCollection _cells;
 
         public int CellCount => size.x * size.y;
@@ -31,7 +37,9 @@ namespace Maze
                 new MazeGeneratorJob
                 {
                     Cells = cells,
-                    Seed = seed is 0 ? (uint) Random.Range(0, int.MaxValue) : seed
+                    Seed = seed is 0 ? (uint) Random.Range(0, int.MaxValue) : seed,
+                    PickLastProbability = pickLastProbability,
+                    OpenDeadEndProbability = openDeadEndProbability
                 }.Schedule().Complete();
                     
                 _cells = cells;

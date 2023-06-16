@@ -12,17 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de436b1454e84731b817599330b29820, type: 3}
   m_Name: Simple Maze Assets
   m_EditorClassIdentifier: 
-  deadEnd: {fileID: 0}
-  straight: {fileID: 0}
-  cornerClosed: {fileID: 0}
-  cornerOpen: {fileID: 0}
-  tJunctionClosed: {fileID: 0}
-  tJunctionOpenNE: {fileID: 0}
-  tJunctionOpenSE: {fileID: 0}
-  tJunctionOpen: {fileID: 0}
-  xJunctionClosed: {fileID: 0}
-  xJunctionOpenNE: {fileID: 0}
-  xJunctionOpenNE_SE: {fileID: 0}
-  xJunctionOpenNE_SW: {fileID: 0}
-  xJunctionClosedNE: {fileID: 0}
-  xJunctionOpen: {fileID: 0}
+  deadEnd: {fileID: 8731840367362881267, guid: c009cfe1cada444d5baec99b58211b74, type: 3}
+  straight: {fileID: 7093101813178932922, guid: 016412bc13f3b4eed84098fa712d5c50,
+    type: 3}
+  cornerClosed: {fileID: 4427939191609412779, guid: d3dca06b467af41eab9d67ec3a936509,
+    type: 3}
+  cornerOpen: {fileID: 7592249053632126, guid: 4290fd60b68714f11ace165a45c4889e, type: 3}
+  tJunctionClosed: {fileID: 1591168602474994373, guid: a27f68840d64c47eb9ff923ffba6ae5c,
+    type: 3}
+  tJunctionOpenNE: {fileID: 2509849204517186075, guid: 3fa54af3f327e417f82d9613120a522e,
+    type: 3}
+  tJunctionOpenSE: {fileID: 241573782377064114, guid: 95e5617dde78a4196b7e09d006ae1eba,
+    type: 3}
+  tJunctionOpen: {fileID: 2001126578984014314, guid: 5dc1b5f6b922a4749bc84e8ff436abdd,
+    type: 3}
+  xJunctionClosed: {fileID: 1444402543976986983, guid: 7491589307242474fb3cf2353fa1d73d,
+    type: 3}
+  xJunctionOpenNE: {fileID: 5225430131827951124, guid: 4ceb832a2a7724884882fcafd4c928b8,
+    type: 3}
+  xJunctionOpenNE_SE: {fileID: 6293337528996627082, guid: dae08ecda2bd04b4ab877bcfc89f4c57,
+    type: 3}
+  xJunctionOpenNE_SW: {fileID: 4407037012603878993, guid: dba267e742d544e05aed9b2c28f96fc2,
+    type: 3}
+  xJunctionClosedNE: {fileID: 5225430131827951124, guid: 4ceb832a2a7724884882fcafd4c928b8,
+    type: 3}
+  xJunctionOpen: {fileID: 6814759083526918691, guid: 3d8aa9630c85a48bca0f04d03d08d584,
+    type: 3}

@@ -45,17 +45,17 @@ namespace Maze
             MazeCellFlags.North | MazeCellFlags.South => (mazeTypes.Straight, 0),
             MazeCellFlags.East | MazeCellFlags.West => (mazeTypes.Straight, 1),
 
-            MazeCellFlags.North | MazeCellFlags.East => (mazeTypes.CornerOpen, 0),
-            MazeCellFlags.East | MazeCellFlags.South => (mazeTypes.CornerOpen, 1),
-            MazeCellFlags.South | MazeCellFlags.West => (mazeTypes.CornerOpen, 2),
-            MazeCellFlags.West | MazeCellFlags.North => (mazeTypes.CornerOpen, 3),
+            MazeCellFlags.North | MazeCellFlags.East => (mazeTypes.CornerClosed, 0),
+            MazeCellFlags.East | MazeCellFlags.South => (mazeTypes.CornerClosed, 1),
+            MazeCellFlags.South | MazeCellFlags.West => (mazeTypes.CornerClosed, 2),
+            MazeCellFlags.West | MazeCellFlags.North => (mazeTypes.CornerClosed, 3),
 
-            MazeCellFlags.All & ~MazeCellFlags.West => (mazeTypes.TJunctionOpen, 0),
-            MazeCellFlags.All & ~MazeCellFlags.North => (mazeTypes.TJunctionOpen, 1),
-            MazeCellFlags.All & ~MazeCellFlags.East => (mazeTypes.TJunctionOpen, 2),
-            MazeCellFlags.All & ~MazeCellFlags.South => (mazeTypes.TJunctionOpen, 3),
+            MazeCellFlags.All & ~MazeCellFlags.West => (mazeTypes.TJunctionClosed, 0),
+            MazeCellFlags.All & ~MazeCellFlags.North => (mazeTypes.TJunctionClosed, 1),
+            MazeCellFlags.All & ~MazeCellFlags.East => (mazeTypes.TJunctionClosed, 2),
+            MazeCellFlags.All & ~MazeCellFlags.South => (mazeTypes.TJunctionClosed, 3),
 
-            _ => (mazeTypes.XJunctionOpenNE, 0)
+            _ => (mazeTypes.XJunctionClosed, 0)
         };
     }
 }

@@ -22,6 +22,8 @@ namespace Maze.Cell
         public int South => -_size.x;
         
         public int West => -1;
+        
+        public int Length => _cells.Length;
 
         public MazeCellCollection(int2 size)
         {
@@ -29,12 +31,20 @@ namespace Maze.Cell
             _cells = new NativeArray<MazeCellFlags>(size.x * size.y, Allocator.Persistent);
         }
 
-        public int Length => _cells.Length;
-
         public MazeCellFlags this[int index]
         {
             get => _cells[index];
             set => _cells[index] = value;
+        }
+        
+        public MazeCellFlags Set (int index, MazeCellFlags mask)
+        {
+            return _cells[index] = _cells[index].Add(mask);
+        }
+
+        public MazeCellFlags Unset (int index, MazeCellFlags mask)
+        {
+            return _cells[index] = _cells[index].Remove(mask);
         }
 
         public int2 IndexToCoordinates(int index)

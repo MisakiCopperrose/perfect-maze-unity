@@ -12,6 +12,7 @@ namespace Maze
         public MazeCellCollection Cells;
         public float PickLastProbability;
         public float OpenDeadEndProbability;
+        public float OpenArbitraryProbability;
         public uint Seed;
 
         public void Execute()
@@ -66,7 +67,7 @@ namespace Maze
                 {
                     var passage = scratchpad[random.NextInt(0, availablePassageCount)];
 
-                    Cells[index] = Cells[index].Add(passage.Item2);
+                    Cells.Set(index, passage.Item2);
                     Cells[passage.Item1] = passage.Item3;
 
                     activeIndices[++lastActiveIndex] = passage.Item1;
@@ -76,9 +77,36 @@ namespace Maze
                 {
                     random = OpenDeadEnds(random, scratchpad);
                 }
+
+                if (OpenArbitraryProbability > 0f)
+                {
+                    random = OpenArbitraryPassages(random);
+                }
             }
         }
 
+        private Random OpenArbitraryPassages(Random random)
+        {
+            for (var i = 0; i < Cells.Length; i++)
+            {
+                var coordinates = Cells.IndexToCoordinates(i);
+
+                if (coordinates.x > 0 && random.NextFloat() < OpenDeadEndProbability)
+                {
+                    Cells.Set(i, MazeCellFlags.West);
+                    Cells.Set(i + Cells.West, MazeCellFlags.East);
+                }
+
+                if (coordinates.y > 0 && random.NextFloat() < OpenArbitraryProbability)
+                {
+                    Cells.Set(i, MazeCellFlags.South);
+                    Cells.Set(i + Cells.South, MazeCellFlags.North);
+                }
+            }
+
+            return random;
+        }
+        
         private Random OpenDeadEnds(Random random, NativeArray<(int, MazeCellFlags, MazeCellFlags)> scratchpad)
         {
             for (var i = 0; i < Cells.Length; i++)
@@ -92,10 +120,10 @@ namespace Maze
                     var passage = scratchpad[random.NextInt(0, availablePassageCount)];
 
                     Cells[i] = cell.Add(passage.Item2);
-                    Cells[i + passage.Item1] = passage.Item3;
+                    Cells.Set(i + passage.Item1, passage.Item3);
                 }
             }
-            
+
             return random;
         }
 
@@ -168,11 +196,11 @@ namespace Maze
 
             if (coordinates.y > 0)
             {
-                var nextIndex = index + Cells.South;
+                var i = index + Cells.South;
 
-                if (Cells[nextIndex] == MazeCellFlags.Empty)
+                if (Cells[i] == MazeCellFlags.Empty)
                 {
-                    scratchpad[count++] = (nextIndex, MazeCellFlags.South, MazeCellFlags.North);
+                    scratchpad[count++] = (i, MazeCellFlags.South, MazeCellFlags.North);
                 }
             }
 

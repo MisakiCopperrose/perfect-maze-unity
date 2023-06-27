@@ -35,6 +35,17 @@ namespace Maze.Cell
             return flags & ~mask;
         }
         
+        public static MazeCellFlags StraightPassages (this MazeCellFlags flags)
+        {
+            return flags & MazeCellFlags.All;
+        }
+
+        public static MazeCellFlags DiagonalPassages (this MazeCellFlags flags)
+        {
+            return flags & MazeCellFlags.Diagonal;
+        }
+
+
         public static int2 MazeCellFlagIndexToCoordinates(int index, int2 size)
         {
             var y = index / size.x;

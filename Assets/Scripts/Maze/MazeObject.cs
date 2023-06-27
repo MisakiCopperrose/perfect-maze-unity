@@ -36,27 +36,30 @@ namespace Maze
             Quaternion.Euler(0f, 270f, 0f)
         };
 
-        private (MazeCell, int) GetPrefab(MazeCellFlags flags) => flags switch
+        private (MazeCell, int) GetPrefab(MazeCellFlags flags)
         {
-            MazeCellFlags.North => (mazeTypes.DeadEnd, 0),
-            MazeCellFlags.East => (mazeTypes.DeadEnd, 1),
-            MazeCellFlags.South => (mazeTypes.DeadEnd, 2),
-            MazeCellFlags.West => (mazeTypes.DeadEnd, 3),
+            return flags.StraightPassages() switch
+            {
+                MazeCellFlags.North => (mazeTypes.DeadEnd, 0),
+                MazeCellFlags.East => (mazeTypes.DeadEnd, 1),
+                MazeCellFlags.South => (mazeTypes.DeadEnd, 2),
+                MazeCellFlags.West => (mazeTypes.DeadEnd, 3),
 
-            MazeCellFlags.North | MazeCellFlags.South => (mazeTypes.Straight, 0),
-            MazeCellFlags.East | MazeCellFlags.West => (mazeTypes.Straight, 1),
+                MazeCellFlags.North | MazeCellFlags.South => (mazeTypes.Straight, 0),
+                MazeCellFlags.East | MazeCellFlags.West => (mazeTypes.Straight, 1),
 
-            MazeCellFlags.North | MazeCellFlags.East => (mazeTypes.CornerClosed, 0),
-            MazeCellFlags.East | MazeCellFlags.South => (mazeTypes.CornerClosed, 1),
-            MazeCellFlags.South | MazeCellFlags.West => (mazeTypes.CornerClosed, 2),
-            MazeCellFlags.West | MazeCellFlags.North => (mazeTypes.CornerClosed, 3),
+                MazeCellFlags.North | MazeCellFlags.East => (mazeTypes.CornerClosed, 0),
+                MazeCellFlags.East | MazeCellFlags.South => (mazeTypes.CornerClosed, 1),
+                MazeCellFlags.South | MazeCellFlags.West => (mazeTypes.CornerClosed, 2),
+                MazeCellFlags.West | MazeCellFlags.North => (mazeTypes.CornerClosed, 3),
 
-            MazeCellFlags.All & ~MazeCellFlags.West => (mazeTypes.TJunctionClosed, 0),
-            MazeCellFlags.All & ~MazeCellFlags.North => (mazeTypes.TJunctionClosed, 1),
-            MazeCellFlags.All & ~MazeCellFlags.East => (mazeTypes.TJunctionClosed, 2),
-            MazeCellFlags.All & ~MazeCellFlags.South => (mazeTypes.TJunctionClosed, 3),
+                MazeCellFlags.All & ~MazeCellFlags.West => (mazeTypes.TJunctionClosed, 0),
+                MazeCellFlags.All & ~MazeCellFlags.North => (mazeTypes.TJunctionClosed, 1),
+                MazeCellFlags.All & ~MazeCellFlags.East => (mazeTypes.TJunctionClosed, 2),
+                MazeCellFlags.All & ~MazeCellFlags.South => (mazeTypes.TJunctionClosed, 3),
 
-            _ => (mazeTypes.XJunctionClosed, 0)
-        };
+                _ => (mazeTypes.XJunctionClosed, 0)
+            };
+        }
     }
 }

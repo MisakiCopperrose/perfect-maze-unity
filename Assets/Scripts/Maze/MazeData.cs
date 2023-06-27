@@ -13,19 +13,19 @@ namespace Maze
     {
         [SerializeField]
         private int2 size;
-        
+
         [SerializeField]
         private uint seed;
-        
+
         [SerializeField, Range(0f, 1f)]
         private float pickLastProbability = 0.5f;
-        
+
         [SerializeField, Range(0f, 1f)]
         private float openDeadEndProbability = 0.5f;
-        
+
         [SerializeField, Range(0f, 1f)]
         private float openArbitraryProbability = 0.25f;
-        
+
         private List<MazeCellFlags> _cells;
 
         public int2 Size => size;
@@ -37,18 +37,26 @@ namespace Maze
             get
             {
                 var cells = new MazeCellCollection(size);
-                    
-                new MazeGeneratorJob
+
+                new MazeFindDiagonalJob
                 {
-                    Cells = cells,
-                    Seed = seed is 0 ? (uint) Random.Range(0, int.MaxValue) : seed,
-                    PickLastProbability = pickLastProbability,
-                    OpenDeadEndProbability = openDeadEndProbability,
-                    OpenArbitraryProbability = openArbitraryProbability
-                }.Schedule().Complete();
-                    
+                    Cells = cells
+                }.ScheduleParallel(
+                    cells.Length, 
+                    cells.Width, 
+                    new MazeGeneratorJob
+                    {
+                        Cells = cells,
+                        Seed = seed is 0 ? (uint)Random.Range(0, int.MaxValue) : seed,
+                        PickLastProbability = pickLastProbability,
+                        OpenDeadEndProbability = openDeadEndProbability,
+                        OpenArbitraryProbability = openArbitraryProbability
+                    }.Schedule()
+                ).Complete();
+
+
                 _cells = cells.ToList();
-                
+
                 cells.Dispose();
 
                 return _cells;

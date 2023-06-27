@@ -20,12 +20,12 @@ namespace Maze
 
         [SerializeField]
         private MazeCell tJunctionClosed;
-
+        
         [SerializeField]
-        private MazeCell tJunctionOpenNE;
-
+        private MazeCell tJunctionOpenNe;
+        
         [SerializeField]
-        private MazeCell tJunctionOpenSE;
+        private MazeCell tJunctionOpenSe;
 
         [SerializeField]
         private MazeCell tJunctionOpen;
@@ -34,16 +34,16 @@ namespace Maze
         private MazeCell xJunctionClosed;
 
         [SerializeField]
-        private MazeCell xJunctionOpenNE;
+        private MazeCell xJunctionOpenNe;
 
         [SerializeField]
-        private MazeCell xJunctionOpenNE_SE;
+        private MazeCell xJunctionOpenNeSe;
 
         [SerializeField]
-        private MazeCell xJunctionOpenNE_SW;
+        private MazeCell xJunctionOpenNeSw;
 
         [SerializeField]
-        private MazeCell xJunctionClosedNE;
+        private MazeCell xJunctionClosedNe;
 
         [SerializeField]
         private MazeCell xJunctionOpen;
@@ -58,20 +58,22 @@ namespace Maze
         
         public MazeCell TJunctionClosed => tJunctionClosed;
         
-        public MazeCell TJunctionOpenNE => tJunctionOpenNE;
+        public MazeCell TJunctionOpenNe => tJunctionOpenNe;
         
-        public MazeCell TJunctionOpenSE => tJunctionOpenSE;
+        public MazeCell TJunctionOpenSe => tJunctionOpenSe;
         
         public MazeCell TJunctionOpen => tJunctionOpen;
         
         public MazeCell XJunctionClosed => xJunctionClosed;
         
-        public MazeCell XJunctionOpenNE => xJunctionOpenNE;
+        public MazeCell XJunctionOpenNe => xJunctionOpenNe;
         
-        public MazeCell XJunctionOpenNE_SE => xJunctionOpenNE_SE;
+        public MazeCell XJunctionOpenNeSe => xJunctionOpenNeSe;
         
-        public MazeCell XJunctionOpenNE_SW => xJunctionOpenNE_SW;
+        public MazeCell XJunctionOpenNeSw => xJunctionOpenNeSw;
         
-        public MazeCell XJunctionClosedNE => xJunctionClosedNE;
+        public MazeCell XJunctionClosedNe => xJunctionClosedNe;
+        
+        public MazeCell XJunctionOpen => xJunctionOpen;
     }
 }

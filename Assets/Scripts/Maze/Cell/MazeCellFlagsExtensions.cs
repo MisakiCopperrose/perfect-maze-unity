@@ -14,7 +14,7 @@ namespace Maze.Cell
         {
             return (flags & mask) != 0;
         }
-        
+
         public static bool HasNot(this MazeCellFlags flags, MazeCellFlags mask)
         {
             return (flags & mask) != mask;
@@ -24,7 +24,7 @@ namespace Maze.Cell
         {
             return flags != 0 && (flags & (flags - 1)) == 0;
         }
-        
+
         public static MazeCellFlags Add(this MazeCellFlags flags, MazeCellFlags mask)
         {
             return flags | mask;
@@ -34,17 +34,26 @@ namespace Maze.Cell
         {
             return flags & ~mask;
         }
-        
-        public static MazeCellFlags StraightPassages (this MazeCellFlags flags)
+
+        public static MazeCellFlags StraightPassages(this MazeCellFlags flags)
         {
             return flags & MazeCellFlags.All;
         }
 
-        public static MazeCellFlags DiagonalPassages (this MazeCellFlags flags)
+        public static MazeCellFlags DiagonalPassages(this MazeCellFlags flags)
         {
             return flags & MazeCellFlags.Diagonal;
         }
 
+        public static MazeCellFlags RotatedDiagonalPassages(this MazeCellFlags flags, MazeCellRotation rotation)
+        {
+            var bits = (int)(flags & MazeCellFlags.Diagonal);
+            var rotationByte = (int)rotation;
+
+            bits = (bits >> rotationByte) | (bits << (4 - rotationByte));
+
+            return (MazeCellFlags)bits & MazeCellFlags.Diagonal;
+        }
 
         public static int2 MazeCellFlagIndexToCoordinates(int index, int2 size)
         {

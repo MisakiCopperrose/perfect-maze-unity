@@ -6,6 +6,8 @@ namespace Maze.Cell
 {
     public class MazeCell : MonoBehaviour
     {
+        public MazeCellRotation Rotation { get; set; }
+        
 #if UNITY_EDITOR
         private static List<Stack<MazeCell>> _pools;
 #endif

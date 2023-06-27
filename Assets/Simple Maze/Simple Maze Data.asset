@@ -16,6 +16,6 @@ MonoBehaviour:
     x: 20
     y: 20
   seed: 123
-  pickLastProbability: 0
-  openDeadEndProbability: 0
-  openArbitraryProbability: 0.01
+  pickLastProbability: 0.5
+  openDeadEndProbability: 0.2
+  openArbitraryProbability: 0.2

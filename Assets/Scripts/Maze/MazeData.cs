@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using Maze.Cell;
+using Maze.Jobs;
 using Unity.Mathematics;
 using UnityEngine;
 using Unity.Jobs;
@@ -24,17 +26,16 @@ namespace Maze
         [SerializeField, Range(0f, 1f)]
         private float openArbitraryProbability = 0.25f;
         
-        private MazeCellCollection _cells;
+        private List<MazeCellFlags> _cells;
+
+        public int2 Size => size;
 
         public int CellCount => size.x * size.y;
 
-        public MazeCellCollection Cells
+        public IReadOnlyList<MazeCellFlags> Cells
         {
             get
             {
-                if (_cells.Length == CellCount) 
-                    return _cells;
-                
                 var cells = new MazeCellCollection(size);
                     
                 new MazeGeneratorJob
@@ -46,15 +47,12 @@ namespace Maze
                     OpenArbitraryProbability = openArbitraryProbability
                 }.Schedule().Complete();
                     
-                _cells = cells;
+                _cells = cells.ToList();
+                
+                cells.Dispose();
 
                 return _cells;
             }
-        }
-
-        private void OnDestroy()
-        {
-            _cells.Dispose();
         }
     }
 }

@@ -12,6 +12,13 @@ namespace Maze.Cell
         South = 1 << 2,
         West = 1 << 3,
         
-        All = North | East | South | West
+        All = North | East | South | West,
+        
+        NorthEast = 1 << 4,
+        SouthEast = 1 << 5,
+        SouthWest = 1 << 6,
+        NorthWest = 1 << 7,
+        
+        Diagonal = NorthEast | SouthEast | SouthWest | NorthWest,
     }
 }

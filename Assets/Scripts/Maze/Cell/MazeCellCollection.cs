@@ -1,7 +1,8 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Unity.Collections;
 using Unity.Mathematics;
-using UnityEngine;
 
 namespace Maze.Cell
 {
@@ -10,6 +11,8 @@ namespace Maze.Cell
         [NativeDisableParallelForRestriction]
         private NativeArray<MazeCellFlags> _cells;
         private readonly int2 _size;
+        
+        public int2 Size => _size;
         
         public int Width => _size.x;
         
@@ -31,6 +34,11 @@ namespace Maze.Cell
             _cells = new NativeArray<MazeCellFlags>(size.x * size.y, Allocator.Persistent);
         }
 
+        public List<MazeCellFlags> ToList()
+        {
+            return _cells.ToList();
+        }
+
         public MazeCellFlags this[int index]
         {
             get => _cells[index];
@@ -45,33 +53,6 @@ namespace Maze.Cell
         public MazeCellFlags Unset (int index, MazeCellFlags mask)
         {
             return _cells[index] = _cells[index].Remove(mask);
-        }
-
-        public int2 IndexToCoordinates(int index)
-        {
-            var y = index / _size.x;
-            var x = index - _size.x * y;
-
-            return new int2
-            {
-                x = x,
-                y = y
-            };
-        }
-
-        public Vector3 CoordinatesToWorldPosition(int2 coordinates, float y = 0f)
-        {
-            return new Vector3
-            {
-                x = 2f * coordinates.x + 1f - _size.x,
-                y = y,
-                z = 2f * coordinates.y + 1f - _size.y
-            };
-        }
-
-        public Vector3 IndexToWorldPosition(int index, float y = 0f)
-        {
-            return CoordinatesToWorldPosition(IndexToCoordinates(index), y);
         }
 
         public void Dispose()

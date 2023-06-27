@@ -1,3 +1,6 @@
+using Unity.Mathematics;
+using UnityEngine;
+
 namespace Maze.Cell
 {
     public static class MazeCellFlagsExtensions
@@ -30,6 +33,33 @@ namespace Maze.Cell
         public static MazeCellFlags Remove(this MazeCellFlags flags, MazeCellFlags mask)
         {
             return flags & ~mask;
+        }
+        
+        public static int2 MazeCellFlagIndexToCoordinates(int index, int2 size)
+        {
+            var y = index / size.x;
+            var x = index - size.x * y;
+
+            return new int2
+            {
+                x = x,
+                y = y
+            };
+        }
+
+        public static Vector3 MazeCellFlagCoordinatesToWorldPosition(int2 coordinates, int2 size, float y = 0f)
+        {
+            return new Vector3
+            {
+                x = 2f * coordinates.x + 1f - size.x,
+                y = y,
+                z = 2f * coordinates.y + 1f - size.y
+            };
+        }
+
+        public static Vector3 MazeCellFlagIndexToWorldPosition(int index, int2 size, float y = 0f)
+        {
+            return MazeCellFlagCoordinatesToWorldPosition(MazeCellFlagIndexToCoordinates(index, size), size, y);
         }
     }
 }

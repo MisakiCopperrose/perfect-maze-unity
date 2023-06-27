@@ -18,4 +18,4 @@ MonoBehaviour:
   seed: 123
   pickLastProbability: 0
   openDeadEndProbability: 0
-  openArbitraryProbability: 0
+  openArbitraryProbability: 0.01

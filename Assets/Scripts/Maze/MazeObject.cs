@@ -22,7 +22,8 @@ namespace Maze
                 
                 instance.transform.SetParent(transform);
                 instance.transform.SetPositionAndRotation(
-                    mazeData.Cells.IndexToWorldPosition(i), Rotations[prefabWithRotation.Item2]
+                    MazeCellFlagsExtensions.MazeCellFlagIndexToWorldPosition(i, mazeData.Size), 
+                    Rotations[prefabWithRotation.Item2]
                 );
             }
         }
